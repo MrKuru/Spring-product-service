@@ -1,4 +1,4 @@
-package com.melh.stockmanagement.productservice.exception.enums.utils;
+package com.melh.stockmanagement.productservice.exception.utils;
 
 import com.melh.stockmanagement.productservice.enums.Language;
 import com.melh.stockmanagement.productservice.exception.enums.IFriendlyMessageCode;
