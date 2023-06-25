@@ -1,4 +1,4 @@
-package com.melh.stockmanagement.productservice.service;
+package com.melh.stockmanagement.productservice.service.impl;
 
 import com.melh.stockmanagement.productservice.enums.Language;
 import com.melh.stockmanagement.productservice.exception.enums.FriendlyMessageCodes;
@@ -7,6 +7,7 @@ import com.melh.stockmanagement.productservice.repository.ProductRepository;
 import com.melh.stockmanagement.productservice.repository.entity.Product;
 import com.melh.stockmanagement.productservice.request.ProductCreateRequest;
 import com.melh.stockmanagement.productservice.request.ProductUpdateRequest;
+import com.melh.stockmanagement.productservice.service.IProductRepositoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

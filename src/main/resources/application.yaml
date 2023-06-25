@@ -10,6 +10,7 @@ info:
 
 server:
   port: 8181
+
 ---
 spring:
   profiles: localhost
@@ -25,5 +26,5 @@ spring:
         default_schema: stock_management
   datasource:
     url: "jdbc:postgresql://localhost:5432/stock_management"
-    username: postgres
-    password: melh12345
+    username: admin
+    password: 1234

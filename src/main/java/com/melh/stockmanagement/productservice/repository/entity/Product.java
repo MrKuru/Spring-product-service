@@ -44,6 +44,6 @@ public class Product {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date productCreatedDate = new Date();
 
-    @Column(name = "deleted")
+    @Column(name = "is_deleted")
     private boolean deleted;
 }
