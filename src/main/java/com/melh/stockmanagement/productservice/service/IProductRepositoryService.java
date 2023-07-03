@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface IProductRepositoryService {
     Product createProduct(Language language, ProductCreateRequest createRequest);
-    Product getProduct(Language language, Long Id);
+    Product getProduct(Language language, Long productId);
     List<Product> getProducts(Language language);
-    Product updateProduct(Language language, ProductUpdateRequest updateRequest);
-    void deleteProduct(Language language, Long Id);
+    Product updateProduct(Language language, Long productId, ProductUpdateRequest updateRequest);
+    void deleteProduct(Language language, Long productId);
 }

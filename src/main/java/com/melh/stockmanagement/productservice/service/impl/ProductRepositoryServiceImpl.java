@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,11 +41,11 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
     }
 
     @Override
-    public Product getProduct(Language language, Long Id) {
-        log.debug("[{}][getProduct] -> request: {}", this.getClass().getSimpleName(), Id);
-        Product product = productRepository.getByProductIdAndDeletedFalse(Id);
+    public Product getProduct(Language language, Long productId) {
+        log.debug("[{}][getProduct] -> request: {}", this.getClass().getSimpleName(), productId);
+        Product product = productRepository.getByProductIdAndDeletedFalse(productId);
         if (Objects.isNull(product)){
-            throw new ProductNotFoundException(language, FriendlyMessageCodes.PRODUCT_NOT_FOUND_EXCEPTION, "Product not found for product id: " + Id);
+            throw new ProductNotFoundException(language, FriendlyMessageCodes.PRODUCT_NOT_FOUND_EXCEPTION, "Product not found for product id: " + productId);
         }
         log.debug("[{}][getProduct] -> response: {}", this.getClass().getSimpleName(), product);
         return product;
@@ -56,12 +57,20 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
     }
 
     @Override
-    public Product updateProduct(Language language, ProductUpdateRequest updateRequest) {
-        return null;
+    public Product updateProduct(Language language, Long productId, ProductUpdateRequest updateRequest) {
+        log.debug("[{}][updateProduct] -> request: {}", this.getClass().getSimpleName(), updateRequest);
+        Product product = getProduct(language, productId);
+        product.setProductName(updateRequest.getProductName());
+        product.setQuantity(updateRequest.getQuantity());
+        product.setPrice(updateRequest.getPrice());
+        product.setProductUpdatedDate(new Date());
+        Product productResponse = productRepository.save(product);
+        log.debug("[{}][updateProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);
+        return productResponse;
     }
 
     @Override
-    public void deleteProduct(Language language, Long Id) {
+    public void deleteProduct(Language language, Long productId) {
 
     }
 }

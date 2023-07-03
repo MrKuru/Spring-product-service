@@ -5,6 +5,7 @@ import com.melh.stockmanagement.productservice.exception.enums.FriendlyMessageCo
 import com.melh.stockmanagement.productservice.exception.utils.FriendlyMessageUtils;
 import com.melh.stockmanagement.productservice.repository.entity.Product;
 import com.melh.stockmanagement.productservice.request.ProductCreateRequest;
+import com.melh.stockmanagement.productservice.request.ProductUpdateRequest;
 import com.melh.stockmanagement.productservice.response.FriendlyMessage;
 import com.melh.stockmanagement.productservice.response.InternalApiResponse;
 import com.melh.stockmanagement.productservice.response.ProductResponse;
@@ -39,17 +40,36 @@ public class ProductController {
                 .build();
     }
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{language}/get/{Id}")
+    @GetMapping(value = "/{language}/get/{productId}")
     public InternalApiResponse<ProductResponse> getProduct(@PathVariable("language") Language language,
-                                                           @PathVariable("Id") Long Id){
-        log.debug("[{}][getProduct] -> request: {}", this.getClass().getSimpleName(), Id);
-        Product product = productRepositoryService.getProduct(language, Id);
+                                                           @PathVariable("productId") Long productId){
+        log.debug("[{}][getProduct] -> request: {}", this.getClass().getSimpleName(), productId);
+        Product product = productRepositoryService.getProduct(language, productId);
         ProductResponse productResponse = convertProductResponse(product);
         log.debug("[{}][getProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);
         return InternalApiResponse.<ProductResponse>builder()
                 .friendlyMessage(FriendlyMessage.builder()
                         .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.OK))
                         .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.OK))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(productResponse)
+                .build();
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(value = "/{language}/update/{productId}")
+    public InternalApiResponse<ProductResponse> updateProduct(@PathVariable("language") Language language,
+                                                              @PathVariable("productId") Long productId,
+                                                              @RequestBody ProductUpdateRequest updateRequest){
+        log.debug("[{}][updateProduct] -> request: {}", this.getClass().getSimpleName(), productId, updateRequest);
+        Product product = productRepositoryService.updateProduct(language, productId, updateRequest);
+        ProductResponse productResponse = convertProductResponse(product);
+        log.debug("[{}][updateProduct] -> response: {}", this.getClass().getSimpleName(), productId, productResponse);
+        return InternalApiResponse.<ProductResponse>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.PRODUCT_SUCCESSFULLY_UPDATED))
                         .build())
                 .httpStatus(HttpStatus.OK)
                 .hasError(false)
