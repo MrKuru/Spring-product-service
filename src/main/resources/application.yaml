@@ -11,6 +11,11 @@ info:
 server:
   port: 8181
 
+logging:
+  level:
+    root: off
+    com.melh: DEBUG
+
 ---
 spring:
   profiles: localhost
